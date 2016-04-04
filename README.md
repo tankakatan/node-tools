@@ -3,16 +3,39 @@ Node.js server application toolset
 
 ## 1. nodeapp
 
-A FreeBSD `rc`-deamon that starts Node server specified with application directory and filename and `node` output location.
+A FreeBSD `rc.d` script that starts arbitrary Node.js application and writes it's log into a file.
 
-The script should be stored at `/usr/local/etc/rc.d`. It uses the standard `/etc/rc.subr` API and `/etc/rc.conf` file that should contain the following parameters:
+### 1.1. Installation
 
 ```bash
-# nodeapp server setup
+git clone https://github.com/tankakatan/node-tools.git
+cp node-tools/nodeapp /usr/local/etc/rc.d/
+```
+
+### 1.2. Initial setup
+
+Before running the script you need to enable it in `/etc/rc.conf` file. Also `nodeapp` requires the application name and directory path. Optioanally you can specify `node` log file location.
+
+```bash
+# Complete nodeapp config for /etc/rc.conf
 nodeapp_enable="YES"
 nodeapp_folder="/path/to/your/application"
 nodeapp_script="application-name.js"
 nodeapp_output="/path/to/your/log/file.log"
 ```
 
-The `nodeapp_output` is an optional parameter. If not specified it will be initialized with the default value `/var/log/nodeapp.log`. If any required parameter is missing `nodeapp` will print an error description and fix instructions.
+If `nodeapp_output` parameter is not specified application will write it's log into default `/var/log/nodeapp.log` file.
+
+### 1.3. Usage
+
+`nodeapp` conforms to the standard `/etc/rc.subr` API and accepts common `rc` commands.
+
+```bash
+/usr/local/etc/rc.d/nodeapp start
+/usr/local/etc/rc.d/nodeapp status
+/usr/local/etc/rc.d/nodeapp restart
+/usr/local/etc/rc.d/nodeapp stop
+...
+```
+
+If any required parameters are missing from config, the script will report an error and provide you with fix instructions.
