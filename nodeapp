@@ -22,7 +22,7 @@ load_rc_config ${name}
 : ${nodeapp_enable=NO}
 : ${nodeapp_folder=""}
 : ${nodeapp_script=""}
-: ${nodeapp_output="/var/log/node-output.log"}
+: ${nodeapp_output="/var/log/${name}.log"}
 
 nodeapp_source="${nodeapp_folder}/${nodeapp_script}"
 
