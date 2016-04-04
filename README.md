@@ -3,7 +3,7 @@ Node.js server application toolset
 
 ## 1. nodeapp
 
-A FreeBSD `rc`-deamon that starts Node server specified with application directory, filename and `node` output location.
+A FreeBSD `rc`-deamon that starts Node server specified with application directory and filename and `node` output location.
 
 The script should be stored at `/usr/local/etc/rc.d`. It uses the standard `/etc/rc.subr` API and `/etc/rc.conf` file that should contain the following parameters:
 
