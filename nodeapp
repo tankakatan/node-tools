@@ -6,8 +6,18 @@
 
 #
 # Add the following lines to /etc/rc.conf to enable nodeapp:
-# pk_enable (bool):      Set to "NO" by default.
-#                        Set it to "YES" to enable nodeapp
+#
+# nodeapp_enable (bool):        Set to "NO" by default.
+#                               Set it to "YES" to enable nodeapp
+#
+# nodeapp_folder (string):      Set to "" by default.
+#                               Stores path to working directory
+#
+# nodeapp_script (string):      Set to "" by default.
+#                               Stores Node server script filename
+#
+# nodeapp_output (string):      Set to "/var/log/${name}.log" by default.
+#                               Stores Node server output file location (optional)
 
 . /etc/rc.subr
 
