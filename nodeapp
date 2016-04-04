@@ -11,10 +11,10 @@
 #                               Set it to "YES" to enable nodeapp
 #
 # nodeapp_folder (string):      Set to "" by default.
-#                               Stores path to working directory
+#                               Stores path to application directory
 #
 # nodeapp_script (string):      Set to "" by default.
-#                               Stores Node server script filename
+#                               Stores Node application filename
 #
 # nodeapp_output (string):      Set to "/var/log/${name}.log" by default.
 #                               Stores Node server output file location (optional)
