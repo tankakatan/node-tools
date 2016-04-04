@@ -1,0 +1,74 @@
+#!/bin/sh
+#
+# PROVIDE: nodeapp 
+# REQUIRE: LOGIN mongod
+# KEYWORD: shutdown
+
+#
+# Add the following lines to /etc/rc.conf to enable nodeapp:
+# pk_enable (bool):      Set to "NO" by default.
+#                        Set it to "YES" to enable nodeapp
+
+. /etc/rc.subr
+
+name=nodeapp
+rcvar=nodeapp_enable
+
+start_precmd="${name}_prestart"
+start_postcmd="${name}_poststart"
+
+load_rc_config ${name}
+
+: ${nodeapp_enable=NO}
+: ${nodeapp_folder=""}
+: ${nodeapp_script=""}
+: ${nodeapp_output="/var/log/node-output.log"}
+
+nodeapp_source="${nodeapp_folder}/${nodeapp_script}"
+
+nodeapp_prestart() {
+	
+	nodeapp_error="Unable to start ${name} because"
+
+	if [ "$nodeapp_folder" == "" ]; then
+		printf "${nodeapp_error} working directory is not specified.\n"
+		printf "Please set up the 'nodeapp_folder' parameter in /etc/rc.conf.\n\n"
+		return 1
+	fi
+	
+	if [ ! -d "$nodeapp_folder" ]; then
+		printf "${nodeapp_error} '${nodeapp_folder}' does not exist.\n"
+		printf "Please set up the correct 'nodeapp_folder' in /etc/rc.conf.\n\n"
+		return 1
+	fi
+
+	if [ "$nodeapp_script" == "" ]; then
+		printf "${nodeapp_error} script file is not specified.\n"
+		printf "Please set up the 'nodeapp_script' parameter in /etc/rc.conf.\n\n"
+		return 1
+	fi
+
+	if [ ! -f "$nodeapp_source" ]; then
+		printf "${nodeapp_error} '${nodeapp_script}' does not exist.\n"
+		printf "Please set up the correct 'nodeapp_script' in /etc/rc.conf.\n\n"
+		return 1
+	fi
+
+	cd ${nodeapp_folder}
+	return 0
+}
+
+nodeapp_poststart() {
+	printf "${name} started successfully. "
+	printf "See '${nodeapp_output}' for details.\n\n"
+	return 0
+}
+
+#required_dirs="${nodeapp_folder}"
+#required_files="${nodeapp_script}"
+
+command="/usr/local/bin/node"
+command_args="${nodeapp_source} > ${nodeapp_output} &"
+
+nodeapp_chdir="${nodeapp_folder}"
+run_rc_command "$1"
